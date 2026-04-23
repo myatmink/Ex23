@@ -1,37 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
-<meta charset="UTF-8">
-<title>UI Element</title>
-
-<!-- Google Font (Roboto) -->
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
-
-<style>
-  body {
-      font-family: 'Roboto', sans-serif;
+    <meta charset="UTF-8">
+    <title>CSS Counter & List Implementation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
         }
 
-          .ui-box {
-              width: 180px;              /* adjust if needed */
-                  height: 35px;
-                      line-height: 35px;
-                          background-color: #ffffff;
-                              border: 1px solid #2f2f2f;
-                                  border-radius: 22px;
-                                      text-align: center;
-                                          font-size: 13px;
-                                              color: #2f2f2f;
-                                                  display: inline-block;
-                                                    }
-                                                    </style>
-                                                    </head>
+        .card {
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #eaeaea;
+            width: 496px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
 
-                                                    <body>
+        /* --- THE CHECKBOX HACK --- */
+        #toggle-trigger {
+            display: none; /* Hide the actual checkbox */
+        }
 
-                                                    <div class="ui-box">
-                                                      查看資訊
-                                                      </div>
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
 
-                                                      </body>
-                                                      </html>
+        /* Styling the Label as the Button (h22/R8) */
+        .btn-style {
+            display: inline-flex;
+            align-items: center;
+            height: 22px;               /* h22 */
+            border-radius: 8px;        /* R8 */
+            background-color: #ffffff;
+            border: 1px solid #2f2f2f;
+            color: #2f2f2f;
+            font-size: 13px;           /* 13px */
+            padding: 0 15px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Change text based on state */
+        #toggle-trigger:checked ~ .header .btn-style::before {
+            content: "收起資訊";
+        }
+        #toggle-trigger:not(:checked) ~ .header .btn-style::before {
+            content: "查看資訊";
+        }
+
+        .image-container {
+            width: 100%;
+            height: 240px;
+            background-color: #ddd;
+            margin-bottom: 10px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- LIST & COUNTER LOGIC --- */
+        .details-list {
+            display: none; /* Hidden by default */
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+            counter-reset: info-item; /* Initialize counter */
+        }
+
+        /* Show list when checkbox is checked */
+        #toggle-trigger:checked ~ .details-list {
+            display: block;
+        }
+
+        .details-list li {
+            counter-increment: info-item; /* Increment counter per LI */
+            background-color: #90ee90;
+            padding: 6px 12px;
+            margin-bottom: 2px;
+            font-size: 13px;
+            color: #2f2f2f;
+            display: flex;
+        }
+
+        /* Using counter to prefix the text */
+        .details-list li::before {
+            content: counter(info-item) ". ";
+            font-weight: bold;
+            margin-right: 8px;
+            color: #0084ff; /* Just for visual distinction */
+        }
+
+        .label-text {
+            font-weight: bold;
+            width: 80px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <input type="checkbox" id="toggle-trigger">
+
+    <div class="header">
+        <label for="toggle-trigger" class="btn-style"></label>
+    </div>
+
+    <div class="image-container">
+        <img src="https://picsum.photos/450/240" alt="Preview">
+    </div>
+
+    <ul class="details-list">
+        <li>
+            <span class="label-text">修改日期 :</span>
+            <span>2017/10/12</span>
+        </li>
+        <li>
+            <span class="label-text">類別 :</span>
+            <span>JPG</span>
+        </li>
+        <li>
+            <span class="label-text">大小 :</span>
+            <span>466.97KB</span>
+        </li>
+        <li>
+            <span class="label-text">路徑 :</span>
+            <span>\\designcenter.qnap.com.tw\RD\sample</span>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>
